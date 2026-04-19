@@ -23,7 +23,3 @@ if [ -d ~/.bashrc.d ]; then
     done
 fi
 unset rc
-
-source /usr/share/git-core/contrib/completion/git-completion.bash
-
-export EDITOR="/usr/bin/nvim"
