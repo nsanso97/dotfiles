@@ -12,20 +12,18 @@
 	name = nsanso97
 	email = nsansoni97@gmail.com
 
-[merge]
-    tool = nvimdiff
-
-[mergetool]
-    prompt = false
-    keepBackup = false
-
-[mergetool "nvimdiff"]
-    layout = "LOCAL,BASE,REMOTE / MERGED"
-
 [commit]
 	gpgsign = true
 
 [core]
-    editor = nvim
+    editor = vim
     pager = bat -p
 
+[merge]
+	tool = vscode
+[mergetool "vscode"]
+	cmd = code --wait $MERGED
+[diff]
+	tool = vscode
+[difftool "vscode"]
+	cmd = code --wait --diff $LOCAL $REMOTE
