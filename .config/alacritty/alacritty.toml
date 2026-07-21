@@ -2,10 +2,10 @@
 background = "#0c0e10"
 
 [font]
-size = 10.0
+size = 14.0
 
 [font.normal]
-family = "CaskaydiaCove NF"
+family = "Cascadia Code NF"
 style = "Light"
 
 [window]
@@ -14,3 +14,6 @@ opacity = 0.92
 [window.padding]
 x = 6
 y = 6
+
+[terminal.shell]
+program = "tmux"
