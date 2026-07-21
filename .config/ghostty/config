@@ -1,0 +1,19 @@
+# Ghostty configuration matching your Alacritty setup
+
+# Font configuration
+font-family = "Cascadia Code NF"
+font-style = "Light"
+font-size = 14
+
+# Window padding
+window-padding-x = 6
+window-padding-y = 6
+
+# Background color and opacity
+background = #0c0e10
+background-opacity = 0.92
+
+# Default command
+command = tmux
+
+confirm-close-surface = false
