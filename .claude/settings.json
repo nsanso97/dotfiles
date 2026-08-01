@@ -1,0 +1,10 @@
+{
+  "model": "sonnet",
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/statusline-command.sh"
+  },
+  "effortLevel": "medium",
+  "awaySummaryEnabled": false,
+  "theme": "auto"
+}
