@@ -16,7 +16,7 @@
 	gpgsign = true
 
 [core]
-    editor = vim
+    editor = nvim
     pager = bat -p
 
 [merge]

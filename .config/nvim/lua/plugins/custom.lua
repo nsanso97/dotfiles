@@ -38,7 +38,6 @@ return {
   {
     "folke/snacks.nvim",
     opts = {
-      animate = { enabled = false },
       image = { enabled = true },
       picker = {
         layouts = {
