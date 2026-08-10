@@ -17,3 +17,5 @@ background-opacity = 0.92
 command = tmux
 
 confirm-close-surface = false
+
+window-decoration = false
