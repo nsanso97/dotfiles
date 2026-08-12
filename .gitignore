@@ -1,1 +1,5 @@
 .bashrc.d/path.sh
+.claude
+!.claude/skills
+!.claude/settings.json
+!.claude/statusline-command.sh
