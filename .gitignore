@@ -1,2 +1,7 @@
 .bashrc.d/path.sh
+<<<<<<< HEAD
+.claude
+!.claude/skills
 .claude/skills/synced
+!.claude/settings.json
+!.claude/statusline-command.sh
