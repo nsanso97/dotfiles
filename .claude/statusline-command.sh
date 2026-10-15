@@ -18,6 +18,9 @@ five_hour_resets_at=$(echo "$input" | jq -r '.rate_limits.five_hour.resets_at //
 seven_day=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // empty')
 seven_day_resets_at=$(echo "$input" | jq -r '.rate_limits.seven_day.resets_at // empty')
 
+ctx_size=$(echo "$input" | jq -r '.context_window.context_window_size // empty')
+ctx_used=$(echo "$input" | jq -r '.context_window.current_usage | if . then (.input_tokens // 0) + (.cache_creation_input_tokens // 0) + (.cache_read_input_tokens // 0) else empty end')
+
 YELLOW=$'\033[00;33m'
 GREEN=$'\033[00;32m'
 RED=$'\033[00;31m'
@@ -46,6 +49,14 @@ time_until() {
     local hours=$(( diff / 3600 ))
     local minutes=$(( (diff % 3600) / 60 ))
     printf "%02d:%02d" "$hours" "$minutes"
+}
+
+fmt_tokens() {
+    awk -v n="$1" 'BEGIN {
+        if (n >= 1000000) printf "%.1fM", n / 1000000;
+        else if (n >= 1000) printf "%.0fk", n / 1000;
+        else printf "%d", n;
+    }'
 }
 
 git_part=""
@@ -86,6 +97,17 @@ if [ -n "$effort" ]; then
     esac
     extra="${extra} ${effort_str}"
 fi
+usage=""
+if [ -n "$ctx_used" ] && [ -n "$ctx_size" ]; then
+    if [ $(( ctx_used * 3 )) -lt "$ctx_size" ]; then
+        ctx_color="$GREEN"
+    elif [ $(( ctx_used * 3 )) -le $(( ctx_size * 2 )) ]; then
+        ctx_color="$YELLOW"
+    else
+        ctx_color="$RED"
+    fi
+    usage="${ctx_color}context $(fmt_tokens "$ctx_used")/$(fmt_tokens "$ctx_size")${RESET}"
+fi
 if [ -n "$five_hour" ] || [ -n "$seven_day" ]; then
     session_str="session ?"
     week_str="week ?"
@@ -105,7 +127,10 @@ if [ -n "$five_hour" ] || [ -n "$seven_day" ]; then
         week_str="${color_7d}week ${used_7d}%${RESET}"
         eta_week=$(time_until "$seven_day_resets_at")
     fi
-    extra="${extra} | usage: ${session_str}, ${week_str} (${eta_session};${eta_week})"
+    usage="${usage:+${usage}, }${session_str}, ${week_str} (${eta_session};${eta_week})"
+fi
+if [ -n "$usage" ]; then
+    extra="${extra} | usage: ${usage}"
 fi
 
 printf "[${YELLOW}%s@%s %s${RESET}]%s%s " "$user" "$host" "$dir" "$git_part" "$extra"
